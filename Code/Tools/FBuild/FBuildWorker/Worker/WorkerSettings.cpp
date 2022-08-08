@@ -84,8 +84,16 @@ void WorkerSettings::SetMinimumFreeMemoryMiB( uint32_t value )
 //------------------------------------------------------------------------------
 void WorkerSettings::Load()
 {
+    AStackString<> workerName;
     AStackString<> settingsPath;
-    Env::GetExePath( settingsPath );
+    Env::GetExePath(settingsPath);
+    // >> Wuxiang Set per worker settings through environment variable.
+    if (Env::GetEnvVariable("FASTBUILD_WORKER_NAME", workerName))
+    {
+        settingsPath += ".";
+        settingsPath += workerName;
+    }
+    // << Wuxiang
     settingsPath += ".settings";
 
     FileStream f;
@@ -122,8 +130,16 @@ void WorkerSettings::Load()
 //------------------------------------------------------------------------------
 void WorkerSettings::Save()
 {
+    AStackString<> workerName;
     AStackString<> settingsPath;
-    Env::GetExePath( settingsPath );
+    Env::GetExePath(settingsPath);
+    // >> Wuxiang Set per worker settings through environment variable.
+    if (Env::GetEnvVariable("FASTBUILD_WORKER_NAME", workerName))
+    {
+        settingsPath += ".";
+        settingsPath += workerName;
+    }
+    // << Wuxiang
     settingsPath += ".settings";
 
     FileStream f;
