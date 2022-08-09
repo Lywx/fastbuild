@@ -38,7 +38,7 @@ REFLECT_END( SettingsNode )
 //------------------------------------------------------------------------------
 SettingsNode::SettingsNode()
 : Node( AString::GetEmpty(), Node::SETTINGS_NODE, Node::FLAG_NONE )
-, m_WorkerConnectionLimit( 15 )
+, m_WorkerConnectionLimit( 50 )
 , m_DistributableJobMemoryLimitMiB( DIST_MEMORY_LIMIT_DEFAULT )
 {
     // Cache path from environment

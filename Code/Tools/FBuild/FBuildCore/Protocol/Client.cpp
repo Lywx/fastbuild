@@ -151,7 +151,7 @@ void Client::LookForWorkers()
     MutexHolder mh( m_ServerListMutex );
 
     const size_t numWorkers( m_ServerList.GetSize() );
-
+    
     // find out how many connections we have now
     size_t numConnections = 0;
     for ( size_t i=0; i<numWorkers; i++ )
@@ -595,7 +595,9 @@ void Client::ProcessJobResultCommon( const ConnectionInfo * connection, bool isC
     // For system failures, mark worker so no more jobs are scheduled to it
     if ( systemError )
     {
-        ss->m_Denylisted = true;
+        // >> Wuxiang Never deny, worker would recover from error!
+        // ss->m_Denylisted = true;
+        // <<
 
         // -distverbose message
         const size_t workerIndex = (size_t)( ss - m_ServerList.Begin() );
