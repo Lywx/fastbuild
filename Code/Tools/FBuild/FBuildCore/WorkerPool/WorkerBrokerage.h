@@ -9,6 +9,8 @@
 
 // Forward Declarations
 //------------------------------------------------------------------------------
+class WorkerConnectionPool;
+class ConnectionInfo;
 
 // WorkerBrokerage
 //------------------------------------------------------------------------------
@@ -24,6 +26,7 @@ public:
 
     // client interface
     void FindWorkers( Array< AString > & workerList );
+    void UpdateWorkerList( Array< uint32_t > &workerListUpdate );
 
     // server interface
     void SetAvailability( bool available );
@@ -33,16 +36,25 @@ private:
 
     Array<AString>      m_BrokerageRoots;
     AString             m_BrokerageRootPaths;
-    bool                m_Availability;
+
+    bool ConnectToCoordinator();
+    void DisconnectFromCoordinator();    bool                m_Availability;
     bool                m_BrokerageInitialized;
     AString             m_HostName;
     AString             m_DomainName;
     AString             m_IPAddress;
     AString             m_BrokerageFilePath;
+    AString             m_CoordinatorAddress;
+    WorkerConnectionPool* m_ConnectionPool;
+    const ConnectionInfo* m_Connection;
     Timer               m_TimerLastUpdate;      // Throttle network access
+
+
+    Array< uint32_t >   m_WorkerListUpdate;
+    bool                m_WorkerListUpdateReady;
     Timer               m_TimerLastIPUpdate;    // Throttle dns access
-    uint64_t            m_SettingsWriteTime;    // FileTime of settings time when last changed
     Timer               m_TimerLastCleanBroker;
+    uint64_t            m_SettingsWriteTime;    // FileTime of settings time when last changed
 };
 
 //------------------------------------------------------------------------------
